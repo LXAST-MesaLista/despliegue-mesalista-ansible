@@ -1,0 +1,8 @@
+Aquí va, si quieres avisos push, la cuenta de servicio de Firebase con el nombre
+
+    firebase-cuenta-servicio.json
+
+(Consola de Firebase > Configuración del proyecto > Cuentas de servicio >
+Generar nueva clave privada). No se sube a Git: .gitignore ignora files/*.json.
+
+No pongas aquí google-services.json: ese archivo es de la app Android.

@@ -1,0 +1,25 @@
+# MesaLista · despliegue completo en la máquina de Azure.
+#
+#   ansible-playbook desplegar.yml --ask-vault-pass
+#
+# Partes sueltas (las comprobaciones iniciales van siempre):
+#   --tags servidor        solo el servidor (API, PostgreSQL, nginx, HTTPS)
+#   --tags integraciones   solo PayPal, correo de Azure y Firebase
+#   --tags web             solo la web
+#   --tags comprobar       solo «mesalista estado» y la prueba desde fuera
+
+- name: Desplegar MesaLista (servidor y web)
+  hosts: mesalista
+  become: true
+  gather_facts: true
+
+  roles:
+    - role: base
+      tags: [always]
+    - role: servidor
+      tags: [servidor]
+    - role: web
+      tags: [web]
+      when: mesalista_instalar_web | bool
+    - role: comprobacion
+      tags: [comprobar]

@@ -1,0 +1,15 @@
+# MesaLista · la máquina virtual de Azure donde se despliega.
+#
+# ansible_host: el dominio (etiqueta DNS de la IP pública) o la IP pública de
+#   la máquina: Azure > tu máquina virtual > Información general > Dirección IP pública.
+# ansible_user: el usuario con el que entras por SSH (el que pusiste al crear la máquina).
+# ansible_ssh_private_key_file: tu clave SSH privada (.pem). En WSL, cópiala a
+#   ~/.ssh y deja permisos 600 (chmod 600 ~/.ssh/mesalista.pem).
+
+all:
+  hosts:
+    mesalista:
+      ansible_host: mesalista.spaincentral.cloudapp.azure.com
+      ansible_user: azureuser
+      ansible_ssh_private_key_file: ~/.ssh/mesalista.pem
+      ansible_python_interpreter: /usr/bin/python3

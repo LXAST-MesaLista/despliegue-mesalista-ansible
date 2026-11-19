@@ -1,0 +1,47 @@
+# El servidor de MesaLista: API (Node.js), PostgreSQL, nginx y HTTPS.
+# Ansible baja el repositorio y ejecuta su instalador sin preguntas
+# (despliegue/install.sh --no-interactivo); los datos llegan por el entorno.
+
+- name: Bajar o actualizar el repositorio del Servidor
+  ansible.builtin.git:
+    repo: "{{ mesalista_repo_servidor }}"
+    dest: "{{ mesalista_carpeta_codigo }}/Servidor"
+    version: "{{ mesalista_rama_servidor }}"
+    force: true   # esta copia es solo de Ansible: se descartan los cambios hechos a mano
+  register: servidor_git
+
+- name: Instalar o actualizar el servidor (install.sh; tarda unos minutos)
+  ansible.builtin.command:
+    cmd: >-
+      bash despliegue/install.sh --no-interactivo
+      --dominio {{ mesalista_dominio | quote }}
+      {{ '--reset-db' if mesalista_borrar_base_de_datos | bool else '' }}
+    chdir: "{{ mesalista_carpeta_codigo }}/Servidor"
+  environment:
+    SERVER_DOMAIN: "{{ mesalista_dominio }}"
+    LE_EMAIL: "{{ mesalista_correo_letsencrypt }}"
+    ADMIN_EMAIL: "{{ mesalista_correo_admin }}"
+    ML_ADMIN_PASSWORD: "{{ mesalista_admin_password }}"
+    ML_CLOSE_PIN: "{{ mesalista_pin_cerrar_local }}"
+    MAIL_CONNECTION: "{{ mesalista_correo_conexion }}"
+    MAIL_SENDER: "{{ mesalista_correo_remitente }}"
+    ML_CONFIRMAR_RESET: "{{ 'BORRAR' if mesalista_borrar_base_de_datos | bool else '' }}"
+  async: 1800
+  poll: 15
+  register: servidor_instalacion
+  changed_when: true
+  failed_when: false
+  no_log: true   # el entorno lleva secretos; la salida se muestra en la tarea siguiente
+
+- name: Salida de install.sh (últimas líneas)
+  ansible.builtin.debug:
+    msg: "{{ (servidor_instalacion.stdout | default('')).splitlines()[-30:] }}"
+
+- name: Parar si install.sh ha fallado
+  ansible.builtin.fail:
+    msg: "install.sh ha terminado con error: {{ (servidor_instalacion.stderr | default('sin mensajes')).splitlines()[-15:] | join(' · ') }}"
+  when: not ansible_check_mode and servidor_instalacion.rc | default(1) != 0
+
+- name: PayPal, correo de Azure y Firebase
+  ansible.builtin.import_tasks: integraciones.yml
+  tags: [integraciones]

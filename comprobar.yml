@@ -1,0 +1,14 @@
+# MesaLista · solo comprobar cómo está la máquina, sin cambiar nada.
+#
+#   ansible-playbook comprobar.yml --ask-vault-pass
+#
+# No usa los secretos, pero Ansible abre group_vars/all/vault.yml al empezar:
+# si existe (cifrado), pide su contraseña igualmente.
+
+- name: Comprobar MesaLista
+  hosts: mesalista
+  become: true
+  gather_facts: false
+
+  roles:
+    - role: comprobacion

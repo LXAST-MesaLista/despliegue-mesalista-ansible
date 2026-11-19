@@ -1,0 +1,60 @@
+# MesaLista · parámetros del despliegue (sin secretos: los secretos van en
+# vault.yml, cifrado con ansible-vault; ver vault.yml.example).
+
+# ---------------------------------------------------------------------------
+# Dominio y correos
+# ---------------------------------------------------------------------------
+# Dominio público de la máquina (etiqueta DNS de la IP pública de Azure). La web
+# y la API comparten este dominio: https://<dominio>/ y https://<dominio>/api/v1/.
+mesalista_dominio: mesalista.spaincentral.cloudapp.azure.com
+
+# Correo al que Let's Encrypt avisa si el certificado HTTPS va a caducar.
+mesalista_correo_letsencrypt: "cambiar@ejemplo.com"
+
+# Cuenta de administrador de MesaLista (se crea la primera vez; su contraseña,
+# en vault.yml). Con ella se entra en https://<dominio>/panel/entrar.
+mesalista_correo_admin: admin@mesalista.com
+
+# ---------------------------------------------------------------------------
+# Código que se despliega
+# ---------------------------------------------------------------------------
+mesalista_repo_servidor: https://github.com/LXPT-UIB/Servidor.git
+mesalista_rama_servidor: main
+mesalista_repo_web: https://github.com/LXPT-UIB/WEB.git
+mesalista_rama_web: main
+
+# Carpeta de la máquina donde Ansible guarda la copia de los repositorios. Los
+# instaladores copian de aquí a /opt/mesalista-servidor y /opt/mesalista-web.
+mesalista_carpeta_codigo: /srv/mesalista
+
+# Instalar también la web (false = solo el servidor con la API).
+mesalista_instalar_web: true
+
+# ---------------------------------------------------------------------------
+# Servicios externos (opcionales). Si el secreto está vacío en vault.yml, no se
+# configura y MesaLista funciona sin ese servicio.
+# ---------------------------------------------------------------------------
+# Correo de Azure Communication Services: solo se usa para «He olvidado la
+# contraseña». Remitente: recurso Email Communication Services > tu dominio >
+# MailFrom addresses (DoNotReply@….azurecomm.net).
+mesalista_correo_remitente: ""
+
+# Firebase (avisos push): la cuenta de servicio de Firebase en esta carpeta.
+# Consola de Firebase > Configuración del proyecto > Cuentas de servicio >
+# Generar nueva clave privada. No se sube a Git (.gitignore).
+mesalista_firebase_cuenta_servicio: "{{ playbook_dir }}/files/firebase-cuenta-servicio.json"
+
+# ---------------------------------------------------------------------------
+# Secretos (los valores reales, en vault.yml)
+# ---------------------------------------------------------------------------
+mesalista_admin_password: "{{ vault_admin_password }}"
+mesalista_pin_cerrar_local: "{{ vault_pin_cerrar_local }}"
+mesalista_paypal_client_id: "{{ vault_paypal_client_id | default('') }}"
+mesalista_paypal_secret: "{{ vault_paypal_secret | default('') }}"
+mesalista_correo_conexion: "{{ vault_correo_conexion | default('') }}"
+
+# ---------------------------------------------------------------------------
+# Peligroso: true BORRA todas las reservas y cuentas y crea la base de datos
+# de nuevo. Úsalo solo con -e mesalista_borrar_base_de_datos=true.
+# ---------------------------------------------------------------------------
+mesalista_borrar_base_de_datos: false

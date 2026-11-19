@@ -1,0 +1,143 @@
+# Servicios externos de la API: PayPal sandbox, correo de Azure Communication
+# Services y Firebase. Cada uno solo se configura si hay datos y si son distintos
+# de los que ya tiene el servidor (así no se reinicia la API en cada ejecución).
+# Se usan los propios comandos del servidor («mesalista paypal», «correo» y
+# «push»), que comprueban las claves antes de guardarlas.
+
+- name: Ruta de la configuración del servidor
+  ansible.builtin.set_fact:
+    servidor_config: /opt/mesalista-servidor/config/config.json
+
+# --- PayPal -----------------------------------------------------------------
+- name: PayPal · ¿son las mismas claves que las del servidor?
+  ansible.builtin.command:
+    argv:
+      - node
+      - -e
+      - >-
+        const c = require(process.argv[1]).paypal || {};
+        process.stdout.write(c.client_id === process.env.ID && c.secret === process.env.SECRETO ? 'igual' : 'distinto');
+      - "{{ servidor_config }}"
+  environment:
+    ID: "{{ mesalista_paypal_client_id }}"
+    SECRETO: "{{ mesalista_paypal_secret }}"
+  register: paypal_actual
+  changed_when: false
+  failed_when: false   # sin config.json (máquina nueva en --check): no se configura
+  check_mode: false
+  no_log: true
+  when: mesalista_paypal_client_id | length > 0
+
+- name: PayPal · guardar y comprobar las claves (mesalista paypal)
+  ansible.builtin.command: /usr/local/bin/mesalista paypal
+  environment:
+    ML_PAYPAL_CLIENT_ID: "{{ mesalista_paypal_client_id }}"
+    ML_PAYPAL_SECRET: "{{ mesalista_paypal_secret }}"
+  register: paypal_cambio
+  failed_when: false
+  no_log: true
+  when: mesalista_paypal_client_id | length > 0 and paypal_actual.stdout == 'distinto'
+
+- name: PayPal · resultado
+  ansible.builtin.fail:
+    msg: "PayPal: {{ paypal_cambio.stderr | default('') }} {{ paypal_cambio.stdout | default('') }}"
+  when: paypal_cambio.rc is defined and paypal_cambio.rc != 0
+
+# --- Correo de Azure ----------------------------------------------------------
+- name: Correo · ¿es la misma configuración que la del servidor?
+  ansible.builtin.command:
+    argv:
+      - node
+      - -e
+      - >-
+        const c = require(process.argv[1]).mail || {};
+        process.stdout.write(c.enabled === true && c.connection_string === process.env.CONEXION
+          && c.sender === process.env.REMITENTE ? 'igual' : 'distinto');
+      - "{{ servidor_config }}"
+  environment:
+    CONEXION: "{{ mesalista_correo_conexion }}"
+    REMITENTE: "{{ mesalista_correo_remitente }}"
+  register: correo_actual
+  changed_when: false
+  failed_when: false   # sin config.json (máquina nueva en --check): no se configura
+  check_mode: false
+  no_log: true
+  when: mesalista_correo_conexion | length > 0 and mesalista_correo_remitente | length > 0
+
+- name: Correo · guardar la cadena de conexión y el remitente (mesalista correo)
+  ansible.builtin.command: /usr/local/bin/mesalista correo
+  environment:
+    ML_MAIL_CONNECTION: "{{ mesalista_correo_conexion }}"
+    ML_MAIL_SENDER: "{{ mesalista_correo_remitente }}"
+  register: correo_cambio
+  failed_when: false
+  no_log: true
+  when:
+    - mesalista_correo_conexion | length > 0 and mesalista_correo_remitente | length > 0
+    - correo_actual.stdout == 'distinto'
+
+- name: Correo · resultado
+  ansible.builtin.fail:
+    msg: "Correo de Azure: {{ correo_cambio.stderr | default('') }} {{ correo_cambio.stdout | default('') }}"
+  when: correo_cambio.rc is defined and correo_cambio.rc != 0
+
+# --- Firebase (avisos push) --------------------------------------------------
+- name: Firebase · ¿hay cuenta de servicio en files/?
+  ansible.builtin.stat:
+    path: "{{ mesalista_firebase_cuenta_servicio }}"
+  delegate_to: localhost
+  become: false
+  register: firebase_local
+
+- name: Firebase · instalar la cuenta de servicio si es nueva
+  when: firebase_local.stat.exists
+  block:
+    - name: Firebase · leer la cuenta de servicio
+      ansible.builtin.set_fact:
+        firebase_cuenta: "{{ lookup('ansible.builtin.file', mesalista_firebase_cuenta_servicio) | from_json }}"
+      no_log: true
+
+    - name: Firebase · ¿es la misma que la del servidor?
+      ansible.builtin.command:
+        argv:
+          - node
+          - -e
+          - >-
+            const c = require(process.argv[1]).fcm || {};
+            process.stdout.write(c.enabled === true && c.client_email === process.env.CORREO
+              && c.private_key === process.env.CLAVE ? 'igual' : 'distinto');
+          - "{{ servidor_config }}"
+      environment:
+        CORREO: "{{ firebase_cuenta.client_email | default('') }}"
+        CLAVE: "{{ firebase_cuenta.private_key | default('') }}"
+      register: firebase_actual
+      changed_when: false
+      failed_when: false
+      check_mode: false
+      no_log: true
+
+    - name: Firebase · copiar la cuenta de servicio a la máquina (temporal)
+      ansible.builtin.copy:
+        src: "{{ mesalista_firebase_cuenta_servicio }}"
+        dest: /root/mesalista-firebase.json
+        owner: root
+        group: root
+        mode: "0600"
+      no_log: true
+      when: firebase_actual.stdout == 'distinto'
+
+    - name: Firebase · comprobar y guardar la cuenta de servicio (mesalista push)
+      ansible.builtin.command: /usr/local/bin/mesalista push /root/mesalista-firebase.json
+      register: firebase_cambio
+      failed_when: false
+      when: firebase_actual.stdout == 'distinto'
+
+    - name: Firebase · resultado
+      ansible.builtin.fail:
+        msg: "Firebase: {{ firebase_cambio.stderr | default('') }} {{ firebase_cambio.stdout | default('') }}"
+      when: firebase_cambio.rc is defined and firebase_cambio.rc != 0
+  always:
+    - name: Firebase · borrar la copia temporal de la máquina
+      ansible.builtin.file:
+        path: /root/mesalista-firebase.json
+        state: absent

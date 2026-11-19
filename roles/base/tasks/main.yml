@@ -1,0 +1,57 @@
+# Comprobaciones antes de tocar nada, y lo mínimo que necesitan los demás roles.
+
+- name: Comprobar que están los secretos (group_vars/all/vault.yml)
+  ansible.builtin.assert:
+    that:
+      - vault_admin_password is defined
+      - vault_pin_cerrar_local is defined
+    fail_msg: >-
+      Faltan los secretos. Copia group_vars/all/vault.yml.example como vault.yml,
+      rellénalo, cífralo con «ansible-vault encrypt group_vars/all/vault.yml» y
+      ejecuta con --ask-vault-pass.
+    quiet: true
+
+- name: Comprobar el formato de la contraseña del administrador y del PIN
+  ansible.builtin.assert:
+    that:
+      - mesalista_admin_password | length >= 10
+      - mesalista_pin_cerrar_local | string is match('^[0-9]{4,8}$')
+    fail_msg: >-
+      En vault.yml, vault_admin_password necesita al menos 10 caracteres y
+      vault_pin_cerrar_local, de 4 a 8 cifras.
+    quiet: true   # assert no muestra los valores, solo este mensaje
+
+- name: Comprobar los parámetros de main.yml
+  ansible.builtin.assert:
+    that:
+      - mesalista_dominio is match('^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)+$')
+      - mesalista_correo_letsencrypt is match('^[^@\s]+@[^@\s]+\.[^@\s]+$')
+      - mesalista_correo_letsencrypt != 'cambiar@ejemplo.com'
+      - mesalista_correo_admin is match('^[^@\s]+@[^@\s]+\.[^@\s]+$')
+    fail_msg: >-
+      Revisa group_vars/all/main.yml: el dominio (sin https:// ni /), el correo
+      para Let's Encrypt (cambia «cambiar@ejemplo.com» por uno tuyo) y el correo
+      del administrador.
+    quiet: true
+
+- name: Avisar si la máquina no es Ubuntu 24.04
+  ansible.builtin.debug:
+    msg: >-
+      Los instaladores de MesaLista están pensados para Ubuntu Server 24.04 LTS;
+      esta máquina es {{ ansible_distribution }} {{ ansible_distribution_version }}.
+  when: ansible_distribution != 'Ubuntu' or ansible_distribution_version != '24.04'
+
+- name: Instalar git (para bajar los repositorios)
+  ansible.builtin.apt:
+    name: [git, ca-certificates]
+    state: present
+    update_cache: true
+    cache_valid_time: 3600
+
+- name: Crear la carpeta del código
+  ansible.builtin.file:
+    path: "{{ mesalista_carpeta_codigo }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"

@@ -1,0 +1,7 @@
+# Secretos: nunca a Git (aunque vault.yml vaya cifrado).
+group_vars/all/vault.yml
+files/*.json
+*.pem
+# Ansible
+*.retry
+.ansible/

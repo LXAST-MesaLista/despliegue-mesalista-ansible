@@ -1,0 +1,27 @@
+# MesaLista · secretos del despliegue (MODELO).
+#
+#   cp group_vars/all/vault.yml.example group_vars/all/vault.yml
+#   (rellena los valores)
+#   ansible-vault encrypt group_vars/all/vault.yml
+#
+# vault.yml queda cifrado con la contraseña que elijas y NO se sube a Git
+# (.gitignore). Para cambiarlo después: ansible-vault edit group_vars/all/vault.yml
+
+# Contraseña de la cuenta de administrador (mesalista_correo_admin): al menos
+# 10 caracteres y que no sea de las más comunes. Solo se usa la primera vez,
+# al crear la cuenta; después se cambia desde el panel.
+vault_admin_password: "una-contraseña-larga-y-difícil"
+
+# PIN de «Cerrar local» (4 a 8 cifras). Solo se usa la primera vez; después se
+# cambia en Administración > Parámetros.
+vault_pin_cerrar_local: "123456"
+
+# PayPal sandbox (señal de los grupos): developer.paypal.com > Apps & Credentials
+# > Sandbox > tu app. Vacíos = sin pago de señal.
+vault_paypal_client_id: ""
+vault_paypal_secret: ""
+
+# Azure Communication Services (correo para restablecer la contraseña): recurso
+# Communication Services > Configuración > Claves > Cadena de conexión.
+# Vacío = sin correo. El remitente va en main.yml (mesalista_correo_remitente).
+vault_correo_conexion: ""

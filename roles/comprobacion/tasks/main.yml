@@ -1,0 +1,38 @@
+# Comprobación final: «mesalista estado» en la máquina (servicios, HTTPS,
+# PayPal, correo, Firebase, copias…) y una petición desde fuera, desde el
+# ordenador que ejecuta Ansible, para ver que Azure deja pasar el HTTPS.
+
+- name: Estado de MesaLista (mesalista estado)
+  ansible.builtin.command: /usr/local/bin/mesalista estado
+  register: estado
+  changed_when: false
+  failed_when: false
+  check_mode: false   # solo lee: también con --check
+
+- name: Resultado de mesalista estado
+  ansible.builtin.debug:
+    msg: "{{ estado.stdout_lines | default([]) }}"
+
+- name: La API responde desde fuera (https://<dominio>/api/v1/config)
+  ansible.builtin.uri:
+    url: "https://{{ mesalista_dominio }}/api/v1/config"
+    return_content: false
+    timeout: 20
+  delegate_to: localhost
+  become: false
+  register: desde_fuera
+  failed_when: false
+  check_mode: false
+
+- name: Avisar si no se llega desde fuera
+  ansible.builtin.debug:
+    msg: >-
+      No se llega a https://{{ mesalista_dominio }}/api/v1/config desde este ordenador
+      ({{ desde_fuera.msg | default('sin respuesta') }}). Revisa en Azure las reglas de
+      entrada de los puertos 80 y 443 y que el certificado sea de Let's Encrypt.
+  when: desde_fuera.status | default(0) != 200
+
+- name: Parar si «mesalista estado» ha encontrado algo que revisar (✘)
+  ansible.builtin.fail:
+    msg: "mesalista estado ha encontrado cosas que revisar: mira las líneas con ✘ de la tarea anterior."
+  when: estado.rc | default(1) != 0

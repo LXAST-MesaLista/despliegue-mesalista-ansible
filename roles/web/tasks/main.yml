@@ -1,0 +1,29 @@
+# La web de MesaLista (Node.js detrás de nginx). Se instala después del
+# servidor: toma el dominio y el correo de Let's Encrypt de /etc/mesalista/install.env.
+
+- name: Bajar o actualizar el repositorio de la WEB
+  ansible.builtin.git:
+    repo: "{{ mesalista_repo_web }}"
+    dest: "{{ mesalista_carpeta_codigo }}/WEB"
+    version: "{{ mesalista_rama_web }}"
+    force: true   # esta copia es solo de Ansible
+  register: web_git
+
+- name: Instalar o actualizar la web (instalar.sh)
+  ansible.builtin.command:
+    cmd: bash despliegue/instalar.sh --no-interactivo
+    chdir: "{{ mesalista_carpeta_codigo }}/WEB"
+  async: 900
+  poll: 10
+  register: web_instalacion
+  changed_when: true
+  failed_when: false
+
+- name: Salida de instalar.sh (últimas líneas)
+  ansible.builtin.debug:
+    msg: "{{ (web_instalacion.stdout | default('')).splitlines()[-20:] }}"
+
+- name: Parar si instalar.sh ha fallado
+  ansible.builtin.fail:
+    msg: "instalar.sh ha terminado con error: {{ (web_instalacion.stderr | default('sin mensajes')).splitlines()[-15:] | join(' · ') }}"
+  when: not ansible_check_mode and web_instalacion.rc | default(1) != 0
