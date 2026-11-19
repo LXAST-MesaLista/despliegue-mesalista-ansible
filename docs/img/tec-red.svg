@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 560" font-family="Segoe UI, Arial, sans-serif" font-size="12">
+  <defs>
+    <marker id="f" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5e554d"/></marker>
+  </defs>
+  <rect width="1000" height="560" fill="#ffffff"/>
+  <text x="500" y="28" text-anchor="middle" font-size="18" font-weight="700" fill="#221c17">Red y puertos: qué entra, qué sale y por dónde</text>
+
+  <!-- Internet -->
+  <rect x="20" y="60" width="150" height="420" rx="12" fill="#eef3fb" stroke="#4a6fa5"/>
+  <text x="95" y="84" text-anchor="middle" font-weight="700" fill="#22344f">Internet</text>
+  <text x="95" y="130" text-anchor="middle" fill="#22344f">Navegadores</text>
+  <text x="95" y="146" text-anchor="middle" fill="#22344f">y app Android</text>
+  <text x="95" y="250" text-anchor="middle" fill="#22344f">Let's Encrypt</text>
+  <text x="95" y="266" text-anchor="middle" fill="#22344f">(comprueba el</text>
+  <text x="95" y="282" text-anchor="middle" fill="#22344f">dominio)</text>
+  <text x="95" y="400" text-anchor="middle" fill="#22344f">Administrador</text>
+  <text x="95" y="416" text-anchor="middle" fill="#22344f">(SSH, pgAdmin)</text>
+
+  <!-- NSG -->
+  <rect x="200" y="60" width="130" height="420" rx="12" fill="#f6e7e2" stroke="#a8432a"/>
+  <text x="265" y="84" text-anchor="middle" font-weight="700" fill="#5c2416">Azure NSG</text>
+  <text x="265" y="100" text-anchor="middle" font-size="11" fill="#5c2416">grupo de seguridad</text>
+  <text x="265" y="136" text-anchor="middle" fill="#5c2416">443 ✔ todos</text>
+  <text x="265" y="240" text-anchor="middle" fill="#5c2416">80 ✔ todos</text>
+  <text x="265" y="404" text-anchor="middle" fill="#5c2416">22 ✔ solo tu IP</text>
+  <text x="265" y="460" text-anchor="middle" fill="#7a1a14">5432 ✘ · 8091 ✘ · 8092 ✘</text>
+
+  <!-- ufw -->
+  <rect x="360" y="60" width="110" height="420" rx="12" fill="#f4efea" stroke="#8c8178"/>
+  <text x="415" y="84" text-anchor="middle" font-weight="700" fill="#2b231d">ufw</text>
+  <text x="415" y="100" text-anchor="middle" font-size="11" fill="#2b231d">cortafuegos de la VM</text>
+  <text x="415" y="136" text-anchor="middle" fill="#2b231d">443 ✔</text>
+  <text x="415" y="240" text-anchor="middle" fill="#2b231d">80 ✔</text>
+  <text x="415" y="404" text-anchor="middle" fill="#2b231d">22 ✔</text>
+  <text x="415" y="460" text-anchor="middle" fill="#7a1a14">resto ✘</text>
+
+  <!-- nginx -->
+  <rect x="500" y="100" width="170" height="200" rx="12" fill="#f6e7e2" stroke="#a8432a" stroke-width="1.6"/>
+  <text x="585" y="124" text-anchor="middle" font-weight="700" fill="#5c2416">nginx</text>
+  <text x="585" y="150" text-anchor="middle" fill="#5c2416">:443 HTTPS</text>
+  <text x="585" y="166" text-anchor="middle" font-size="11" fill="#5c2416">TLS · HTTP/2 · cabeceras</text>
+  <text x="585" y="240" text-anchor="middle" fill="#5c2416">:80 HTTP</text>
+  <text x="585" y="256" text-anchor="middle" font-size="11" fill="#5c2416">301 → https · ACME</text>
+
+  <rect x="500" y="380" width="170" height="60" rx="12" fill="#f4efea" stroke="#8c8178"/>
+  <text x="585" y="404" text-anchor="middle" font-weight="700" fill="#2b231d">sshd :22</text>
+  <text x="585" y="422" text-anchor="middle" font-size="11" fill="#2b231d">solo con clave</text>
+
+  <!-- Internos -->
+  <rect x="720" y="60" width="140" height="56" rx="10" fill="#f4efea" stroke="#8c8178"/>
+  <text x="790" y="84" text-anchor="middle" font-weight="700" fill="#2b231d">/assets</text>
+  <text x="790" y="102" text-anchor="middle" font-size="11" fill="#2b231d">archivos del disco</text>
+  <rect x="720" y="134" width="140" height="56" rx="10" fill="#fff7e0" stroke="#c98a09"/>
+  <text x="790" y="158" text-anchor="middle" font-weight="700" fill="#5a3d00">WEB</text>
+  <text x="790" y="176" text-anchor="middle" font-size="11" fill="#5a3d00">127.0.0.1:8092</text>
+  <rect x="720" y="208" width="140" height="56" rx="10" fill="#e7f4ec" stroke="#2f8f5b"/>
+  <text x="790" y="232" text-anchor="middle" font-weight="700" fill="#174a2e">API</text>
+  <text x="790" y="250" text-anchor="middle" font-size="11" fill="#174a2e">127.0.0.1:8091</text>
+  <rect x="720" y="300" width="140" height="56" rx="10" fill="#ece8f6" stroke="#6b5ca5"/>
+  <text x="790" y="324" text-anchor="middle" font-weight="700" fill="#2f2656">PostgreSQL</text>
+  <text x="790" y="342" text-anchor="middle" font-size="11" fill="#2f2656">127.0.0.1:5432</text>
+  <rect x="720" y="380" width="140" height="56" rx="10" fill="#f4efea" stroke="#8c8178"/>
+  <text x="790" y="404" text-anchor="middle" font-weight="700" fill="#2b231d">certbot (webroot)</text>
+  <text x="790" y="422" text-anchor="middle" font-size="11" fill="#2b231d">/var/www/letsencrypt</text>
+
+  <!-- Salida -->
+  <rect x="880" y="60" width="104" height="420" rx="12" fill="#eef6f0" stroke="#2f8f5b"/>
+  <text x="932" y="84" text-anchor="middle" font-weight="700" fill="#174a2e">Salida</text>
+  <text x="932" y="100" text-anchor="middle" font-size="10.5" fill="#174a2e">HTTPS 443</text>
+  <text x="932" y="210" text-anchor="middle" font-size="10.5" fill="#174a2e">fcm.googleapis</text>
+  <text x="932" y="224" text-anchor="middle" font-size="10.5" fill="#174a2e">oauth2.googleapis</text>
+  <text x="932" y="246" text-anchor="middle" font-size="10.5" fill="#174a2e">api-m.sandbox</text>
+  <text x="932" y="260" text-anchor="middle" font-size="10.5" fill="#174a2e">.paypal.com</text>
+  <text x="932" y="282" text-anchor="middle" font-size="10.5" fill="#174a2e">*.communication</text>
+  <text x="932" y="296" text-anchor="middle" font-size="10.5" fill="#174a2e">.azure.com</text>
+  <text x="932" y="406" text-anchor="middle" font-size="10.5" fill="#174a2e">acme-v02.api</text>
+  <text x="932" y="420" text-anchor="middle" font-size="10.5" fill="#174a2e">.letsencrypt.org</text>
+
+  <g stroke="#5e554d" stroke-width="1.5" fill="none" marker-end="url(#f)">
+    <path d="M170,140 L498,140"/>
+    <path d="M170,264 L498,250"/>
+    <path d="M170,410 L498,410"/>
+    <path d="M670,130 L718,90"/>
+    <path d="M670,150 L718,160"/>
+    <path d="M670,170 L718,232"/>
+    <path d="M790,264 L790,298"/>
+    <path d="M670,260 L718,398"/>
+    <path d="M860,236 L878,236"/>
+    <path d="M860,408 L878,408"/>
+  </g>
+  <text x="730" y="290" font-size="10.5" fill="#2f2656">SQL</text>
+  <text x="20" y="520" font-size="12" fill="#5e554d">Dos filtros en la entrada (NSG de Azure y ufw) y, detrás de nginx, todo escucha solo en 127.0.0.1: desde fuera solo se ve nginx (80/443) y SSH (22).</text>
+  <text x="20" y="540" font-size="12" fill="#5e554d">La WEB llama a la API directamente por 127.0.0.1:8091; la app y el navegador, siempre a través de nginx por HTTPS.</text>
+</svg>

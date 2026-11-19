@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 720" font-family="Segoe UI, Arial, sans-serif" font-size="12">
+  <defs>
+    <marker id="f" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5e554d"/></marker>
+  </defs>
+  <rect width="1000" height="720" fill="#ffffff"/>
+  <text x="500" y="28" text-anchor="middle" font-size="18" font-weight="700" fill="#221c17">Mapa de tecnologías de MesaLista</text>
+
+  <!-- Banda: personas -->
+  <rect x="20" y="44" width="960" height="92" rx="12" fill="#eef3fb" stroke="#4a6fa5"/>
+  <text x="34" y="64" font-weight="700" fill="#22344f">PERSONAS Y DISPOSITIVOS</text>
+  <rect x="40" y="74" width="260" height="52" rx="8" fill="#fff" stroke="#4a6fa5"/>
+  <text x="170" y="96" text-anchor="middle" font-weight="700" fill="#22344f">Cliente · navegador</text>
+  <text x="170" y="114" text-anchor="middle" fill="#22344f">HTML5 · CSS · JavaScript · cookies</text>
+  <rect x="370" y="74" width="260" height="52" rx="8" fill="#fff" stroke="#4a6fa5"/>
+  <text x="500" y="96" text-anchor="middle" font-weight="700" fill="#22344f">Cliente · app Android</text>
+  <text x="500" y="114" text-anchor="middle" fill="#22344f">Kotlin · Jetpack Compose · Material 3</text>
+  <rect x="700" y="74" width="260" height="52" rx="8" fill="#fff" stroke="#4a6fa5"/>
+  <text x="830" y="96" text-anchor="middle" font-weight="700" fill="#22344f">Personal del restaurante</text>
+  <text x="830" y="114" text-anchor="middle" fill="#22344f">navegador · panel · cámara (QR)</text>
+
+  <!-- Banda: Azure -->
+  <rect x="20" y="160" width="700" height="400" rx="12" fill="#fbf9f7" stroke="#a8432a" stroke-width="1.6"/>
+  <text x="34" y="180" font-weight="700" fill="#5c2416">MICROSOFT AZURE · máquina virtual Ubuntu Server 24.04 LTS</text>
+  <text x="34" y="196" font-size="11" fill="#8c8178">IP pública estática + etiqueta DNS · grupo de seguridad de red · ufw · systemd · cron · logrotate</text>
+
+  <rect x="40" y="210" width="660" height="56" rx="8" fill="#f6e7e2" stroke="#a8432a"/>
+  <text x="370" y="232" text-anchor="middle" font-weight="700" fill="#5c2416">nginx 1.24 · HTTPS (TLS 1.2/1.3, HTTP/2) · certificado de Let's Encrypt (certbot)</text>
+  <text x="370" y="252" text-anchor="middle" fill="#5c2416">/assets → archivos · /api/v1 → API · el resto → WEB · /.well-known/acme-challenge → certbot</text>
+
+  <rect x="40" y="290" width="310" height="120" rx="8" fill="#fff7e0" stroke="#c98a09"/>
+  <text x="195" y="312" text-anchor="middle" font-weight="700" fill="#5a3d00">WEB · mesalista-web (:8092)</text>
+  <text x="56" y="334" fill="#5a3d00">• Node.js 24 (módulos ES, node:http)</text>
+  <text x="56" y="352" fill="#5a3d00">• EJS 3.1 · Bootstrap 5.3.8</text>
+  <text x="56" y="370" fill="#5a3d00">• jsQR 1.4 (escáner) · qrcode-generator 1.4</text>
+  <text x="56" y="388" fill="#5a3d00">• sesiones en archivos · CSRF · CSP</text>
+
+  <rect x="390" y="290" width="310" height="120" rx="8" fill="#e7f4ec" stroke="#2f8f5b"/>
+  <text x="545" y="312" text-anchor="middle" font-weight="700" fill="#174a2e">API REST · mesalista-api (:8091)</text>
+  <text x="406" y="334" fill="#174a2e">• Node.js 24 · router propio · JSON</text>
+  <text x="406" y="352" fill="#174a2e">• pg 8 (PostgreSQL) · argon2 (contraseñas)</text>
+  <text x="406" y="370" fill="#174a2e">• tokens Bearer (SHA-256) · QR HMAC-SHA256</text>
+  <text x="406" y="388" fill="#174a2e">• clientes de FCM, PayPal y Azure Email</text>
+
+  <rect x="390" y="434" width="310" height="110" rx="8" fill="#ece8f6" stroke="#6b5ca5"/>
+  <text x="545" y="456" text-anchor="middle" font-weight="700" fill="#2f2656">PostgreSQL 16 (:5432, solo local)</text>
+  <text x="406" y="478" fill="#2f2656">• base «mesalista» · roles owner / API</text>
+  <text x="406" y="496" fill="#2f2656">• btree_gist (sin solapes) · unaccent</text>
+  <text x="406" y="514" fill="#2f2656">• disparadores · procedimientos · colas</text>
+  <text x="406" y="532" fill="#2f2656">• pg_dump diario (03:30)</text>
+
+  <rect x="40" y="434" width="310" height="110" rx="8" fill="#f4efea" stroke="#8c8178"/>
+  <text x="195" y="456" text-anchor="middle" font-weight="700" fill="#2b231d">Tareas de la máquina</text>
+  <text x="56" y="478" fill="#2b231d">• cron: worker.js cada minuto y a las 04:00</text>
+  <text x="56" y="496" fill="#2b231d">• cron: backup.sh a las 03:30</text>
+  <text x="56" y="514" fill="#2b231d">• certbot.timer (renovar HTTPS)</text>
+  <text x="56" y="532" fill="#2b231d">• comando «mesalista» (estado, logs…)</text>
+
+  <!-- Externos -->
+  <rect x="740" y="160" width="240" height="400" rx="12" fill="#f4efea" stroke="#8c8178"/>
+  <text x="754" y="180" font-weight="700" fill="#2b231d">SERVICIOS EXTERNOS</text>
+  <rect x="756" y="194" width="208" height="56" rx="8" fill="#fff" stroke="#2f8f5b"/>
+  <text x="860" y="216" text-anchor="middle" font-weight="700" fill="#174a2e">Let's Encrypt</text>
+  <text x="860" y="234" text-anchor="middle" fill="#174a2e">certificado HTTPS gratuito</text>
+  <rect x="756" y="262" width="208" height="68" rx="8" fill="#fff" stroke="#c98a09"/>
+  <text x="860" y="284" text-anchor="middle" font-weight="700" fill="#5a3d00">Firebase · Google Cloud</text>
+  <text x="860" y="302" text-anchor="middle" fill="#5a3d00">FCM HTTP v1 (avisos push)</text>
+  <text x="860" y="318" text-anchor="middle" fill="#5a3d00">OAuth 2.0 · cuenta de servicio</text>
+  <rect x="756" y="342" width="208" height="56" rx="8" fill="#fff" stroke="#4a6fa5"/>
+  <text x="860" y="364" text-anchor="middle" font-weight="700" fill="#22344f">PayPal sandbox</text>
+  <text x="860" y="382" text-anchor="middle" fill="#22344f">REST Orders v2 · señal de grupos</text>
+  <rect x="756" y="410" width="208" height="68" rx="8" fill="#fff" stroke="#a8432a"/>
+  <text x="860" y="432" text-anchor="middle" font-weight="700" fill="#5c2416">Azure Communication</text>
+  <text x="860" y="448" text-anchor="middle" font-weight="700" fill="#5c2416">Services · Email</text>
+  <text x="860" y="466" text-anchor="middle" fill="#5c2416">solo recuperar contraseña</text>
+  <rect x="756" y="490" width="208" height="56" rx="8" fill="#fff" stroke="#8c8178"/>
+  <text x="860" y="512" text-anchor="middle" font-weight="700" fill="#2b231d">NodeSource · Ubuntu apt</text>
+  <text x="860" y="530" text-anchor="middle" fill="#2b231d">paquetes al instalar</text>
+
+  <!-- Banda: desarrollo -->
+  <rect x="20" y="584" width="960" height="120" rx="12" fill="#eef6f0" stroke="#2f8f5b"/>
+  <text x="34" y="604" font-weight="700" fill="#174a2e">DESARROLLO Y DESPLIEGUE</text>
+  <rect x="40" y="614" width="210" height="76" rx="8" fill="#fff" stroke="#2f8f5b"/>
+  <text x="145" y="636" text-anchor="middle" font-weight="700" fill="#174a2e">GitHub · LXPT-UIB</text>
+  <text x="145" y="654" text-anchor="middle" fill="#174a2e">Servidor · WEB · APP</text>
+  <text x="145" y="672" text-anchor="middle" fill="#174a2e">despliegue-mesalista-ansible</text>
+  <rect x="270" y="614" width="210" height="76" rx="8" fill="#fff" stroke="#2f8f5b"/>
+  <text x="375" y="636" text-anchor="middle" font-weight="700" fill="#174a2e">Ansible (core 2.16+)</text>
+  <text x="375" y="654" text-anchor="middle" fill="#174a2e">roles · Vault (secretos)</text>
+  <text x="375" y="672" text-anchor="middle" fill="#174a2e">por SSH o en la máquina</text>
+  <rect x="500" y="614" width="210" height="76" rx="8" fill="#fff" stroke="#2f8f5b"/>
+  <text x="605" y="636" text-anchor="middle" font-weight="700" fill="#174a2e">SSH · scripts bash</text>
+  <text x="605" y="654" text-anchor="middle" fill="#174a2e">install.sh · instalar.sh</text>
+  <text x="605" y="672" text-anchor="middle" fill="#174a2e">--no-interactivo</text>
+  <rect x="730" y="614" width="230" height="76" rx="8" fill="#fff" stroke="#2f8f5b"/>
+  <text x="845" y="636" text-anchor="middle" font-weight="700" fill="#174a2e">Android Studio · Gradle</text>
+  <text x="845" y="654" text-anchor="middle" fill="#174a2e">JDK 17 · SDK 35 · R8</text>
+  <text x="845" y="672" text-anchor="middle" fill="#174a2e">APK firmado (release/)</text>
+
+  <!-- Flechas -->
+  <g stroke="#5e554d" stroke-width="1.5" fill="none" marker-end="url(#f)">
+    <path d="M170,126 L170,208"/>
+    <path d="M830,126 L560,208"/>
+    <path d="M500,126 L500,208"/>
+    <path d="M195,266 L195,288"/>
+    <path d="M545,266 L545,288"/>
+    <path d="M350,350 L388,350"/>
+    <path d="M545,410 L545,432"/>
+    <path d="M350,490 L388,490"/>
+    <path d="M700,330 L754,296"/>
+    <path d="M700,360 L754,370"/>
+    <path d="M700,390 L754,440"/>
+    <path d="M720,238 L754,222"/>
+  </g>
+  <text x="178" y="150" font-size="11" fill="#5e554d">HTTPS</text>
+  <text x="508" y="150" font-size="11" fill="#5e554d">HTTPS · JSON · Bearer</text>
+  <text x="352" y="344" font-size="10.5" fill="#5e554d">JSON</text>
+  <text x="352" y="484" font-size="10.5" fill="#5e554d">SQL</text>
+  <path d="M640,126 Q 900 140 870 260" stroke="#c98a09" stroke-width="1.5" fill="none" stroke-dasharray="5 4" marker-start="url(#f)"/>
+  <text x="664" y="146" font-size="11" fill="#c98a09">aviso push al móvil</text>
+</svg>

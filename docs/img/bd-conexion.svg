@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" font-family="Segoe UI, Arial, sans-serif" font-size="13">
+  <defs>
+    <marker id="f" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#5e554d"/>
+    </marker>
+  </defs>
+  <rect width="900" height="500" fill="#ffffff"/>
+  <text x="450" y="28" text-anchor="middle" font-size="17" font-weight="700" fill="#221c17">Quién se conecta con PostgreSQL (todo dentro de la misma máquina de Azure)</text>
+
+  <!-- Máquina -->
+  <rect x="150" y="48" width="730" height="420" rx="14" fill="#fbf9f7" stroke="#c9bfb5" stroke-dasharray="6 4"/>
+  <text x="166" y="70" font-size="12" fill="#8c8178">Máquina virtual Ubuntu 24.04 · el puerto 5432 NO se abre hacia fuera (ufw)</text>
+
+  <!-- Fuera -->
+  <rect x="20" y="110" width="110" height="56" rx="10" fill="#eef3fb" stroke="#4a6fa5"/>
+  <text x="75" y="134" text-anchor="middle" font-weight="700" fill="#22344f">Navegador</text>
+  <text x="75" y="152" text-anchor="middle" font-size="11" fill="#22344f">y app Android</text>
+  <rect x="20" y="380" width="110" height="56" rx="10" fill="#eef3fb" stroke="#4a6fa5"/>
+  <text x="75" y="404" text-anchor="middle" font-weight="700" fill="#22344f">pgAdmin</text>
+  <text x="75" y="422" text-anchor="middle" font-size="11" fill="#22344f">tu ordenador</text>
+
+  <!-- WEB y API -->
+  <rect x="190" y="100" width="170" height="76" rx="10" fill="#fff7e0" stroke="#c98a09" stroke-width="1.5"/>
+  <text x="275" y="124" text-anchor="middle" font-weight="700" fill="#5a3d00">WEB · :8092</text>
+  <text x="275" y="143" text-anchor="middle" font-size="11" fill="#5a3d00">sin acceso a PostgreSQL</text>
+  <text x="275" y="160" text-anchor="middle" font-size="11" fill="#5a3d00">sesiones en archivos</text>
+
+  <rect x="420" y="100" width="190" height="96" rx="10" fill="#e7f4ec" stroke="#2f8f5b" stroke-width="1.5"/>
+  <text x="515" y="124" text-anchor="middle" font-weight="700" fill="#174a2e">API · :8091</text>
+  <text x="515" y="143" text-anchor="middle" font-size="11" fill="#174a2e">src/db.js · librería pg</text>
+  <text x="515" y="160" text-anchor="middle" font-size="11" fill="#174a2e">grupo de hasta 10 conexiones</text>
+  <text x="515" y="177" text-anchor="middle" font-size="11" fill="#174a2e">usuario «mesalista»</text>
+
+  <rect x="420" y="232" width="190" height="56" rx="10" fill="#e7f4ec" stroke="#2f8f5b"/>
+  <text x="515" y="256" text-anchor="middle" font-weight="700" fill="#174a2e">worker.js (cron)</text>
+  <text x="515" y="274" text-anchor="middle" font-size="11" fill="#174a2e">cada minuto · mismo src/db.js</text>
+
+  <rect x="190" y="312" width="190" height="56" rx="10" fill="#f4efea" stroke="#8c8178"/>
+  <text x="285" y="336" text-anchor="middle" font-weight="700" fill="#2b231d">backup.sh · psql</text>
+  <text x="285" y="354" text-anchor="middle" font-size="11" fill="#5e554d">como «postgres» (sin contraseña)</text>
+
+  <rect x="190" y="392" width="190" height="56" rx="10" fill="#f4efea" stroke="#8c8178"/>
+  <text x="285" y="416" text-anchor="middle" font-weight="700" fill="#2b231d">sshd · túnel SSH</text>
+  <text x="285" y="434" text-anchor="middle" font-size="11" fill="#5e554d">puerto 22, solo tu IP</text>
+
+  <!-- PostgreSQL -->
+  <rect x="680" y="160" width="180" height="200" rx="12" fill="#ece8f6" stroke="#6b5ca5" stroke-width="1.6"/>
+  <text x="770" y="188" text-anchor="middle" font-weight="700" font-size="15" fill="#2f2656">PostgreSQL 16</text>
+  <text x="770" y="208" text-anchor="middle" font-size="11" fill="#2f2656">clúster 16/main</text>
+  <text x="770" y="226" text-anchor="middle" font-size="11" fill="#2f2656">escucha en localhost:5432</text>
+  <rect x="700" y="242" width="140" height="100" rx="8" fill="#ffffff" stroke="#6b5ca5"/>
+  <text x="770" y="264" text-anchor="middle" font-weight="700" fill="#2f2656">base «mesalista»</text>
+  <text x="770" y="284" text-anchor="middle" font-size="11" fill="#2f2656">users, reservations,</text>
+  <text x="770" y="300" text-anchor="middle" font-size="11" fill="#2f2656">dining_tables, sessions…</text>
+  <text x="770" y="320" text-anchor="middle" font-size="11" fill="#2f2656">hora de Madrid</text>
+
+  <!-- Flechas -->
+  <g stroke="#5e554d" stroke-width="1.6" fill="none" marker-end="url(#f)">
+    <path d="M130,138 L188,138"/>
+    <path d="M360,138 L418,138"/>
+    <path d="M610,160 L678,215"/>
+    <path d="M610,262 L678,262"/>
+    <path d="M380,340 L678,310"/>
+    <path d="M130,410 L188,420"/>
+    <path d="M380,420 L678,340"/>
+  </g>
+  <text x="140" y="128" font-size="11" fill="#5e554d">HTTPS</text>
+  <text x="372" y="128" font-size="11" fill="#5e554d">JSON</text>
+  <text x="425" y="216" font-size="11" fill="#2f2656">↗ TCP 127.0.0.1:5432 · contraseña (SCRAM)</text>
+  <text x="440" y="316" font-size="11" fill="#5e554d">socket local · «peer»</text>
+  <text x="392" y="372" font-size="11" fill="#5e554d">127.0.0.1:5432 por el túnel</text>
+
+  <text x="166" y="488" font-size="12" fill="#8c8178">La WEB pide los datos a la API por HTTP; solo la API (y sus tareas) hablan con PostgreSQL.</text>
+</svg>

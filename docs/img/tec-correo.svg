@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500" font-family="Segoe UI, Arial, sans-serif" font-size="12">
+  <defs>
+    <marker id="f" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5e554d"/></marker>
+  </defs>
+  <rect width="1000" height="500" fill="#ffffff"/>
+  <text x="500" y="26" text-anchor="middle" font-size="18" font-weight="700" fill="#221c17">«He olvidado la contraseña» con Azure Communication Services Email</text>
+  <g font-weight="700" text-anchor="middle">
+    <rect x="20" y="44" width="160" height="40" rx="8" fill="#eef3fb" stroke="#4a6fa5"/><text x="100" y="69" fill="#22344f">Persona · correo</text>
+    <rect x="220" y="44" width="150" height="40" rx="8" fill="#fff7e0" stroke="#c98a09"/><text x="295" y="69" fill="#5a3d00">WEB</text>
+    <rect x="410" y="44" width="170" height="40" rx="8" fill="#e7f4ec" stroke="#2f8f5b"/><text x="495" y="62" fill="#174a2e">API</text><text x="495" y="77" font-size="10.5" font-weight="400" fill="#174a2e">auth.js · mail.js</text>
+    <rect x="620" y="44" width="150" height="40" rx="8" fill="#ece8f6" stroke="#6b5ca5"/><text x="695" y="69" fill="#2f2656">PostgreSQL</text>
+    <rect x="810" y="44" width="170" height="40" rx="8" fill="#f6e7e2" stroke="#a8432a"/><text x="895" y="62" fill="#5c2416">Azure Email</text><text x="895" y="77" font-size="10.5" font-weight="400" fill="#5c2416">*.communication.azure.com</text>
+  </g>
+  <g stroke="#c9bfb5" stroke-width="1.2" stroke-dasharray="4 4"><path d="M100,84 L100,420"/><path d="M295,84 L295,420"/><path d="M495,84 L495,420"/><path d="M695,84 L695,420"/><path d="M895,84 L895,420"/></g>
+  <g stroke="#5e554d" stroke-width="1.5" fill="none" marker-end="url(#f)">
+    <path d="M100,110 L293,110"/>
+    <path d="M295,134 L493,134"/>
+    <path d="M495,160 L693,160"/>
+    <path d="M495,212 L893,212"/>
+    <path d="M895,236 L497,236"/>
+    <path d="M895,266 L102,266"/>
+    <path d="M100,300 L293,300"/>
+    <path d="M295,330 L493,330"/>
+    <path d="M495,356 L693,356"/>
+    <path d="M495,386 L297,386"/>
+  </g>
+  <text x="108" y="104">① /recuperar: escribe su correo</text>
+  <text x="304" y="128">② POST /auth/forgot {"email"}</text>
+  <text x="504" y="154" fill="#2f2656">③ password_resets (hash del token) + email_outbox</text>
+  <text x="504" y="176" fill="#2f2656">   (la respuesta es la misma exista o no la cuenta)</text>
+  <text x="504" y="206">④ POST /emails:send · firma HMAC-SHA256 (x-ms-date, x-ms-content-sha256)</text>
+  <text x="720" y="230" fill="#5c2416">202 Accepted</text>
+  <text x="300" y="260" fill="#5c2416">⑤ el correo llega con el enlace https://&lt;dominio&gt;/restablecer?token=… (front.reset)</text>
+  <text x="108" y="294">⑥ abre el enlace y escribe la nueva</text>
+  <text x="304" y="324">⑦ POST /auth/reset {"token", "password"}</text>
+  <text x="504" y="350" fill="#2f2656">⑧ argon2id de la nueva · enlace ya usado · cierra las sesiones</text>
+  <text x="330" y="380" fill="#174a2e">⑨ {"ok": true} → «Contraseña cambiada»</text>
+  <rect x="20" y="430" width="960" height="56" rx="10" fill="#fbf9f7" stroke="#c9bfb5"/>
+  <text x="36" y="452" fill="#2b231d">Es el ÚNICO correo que envía MesaLista: el resto de avisos va por push (Firebase) y por los avisos de la web y la app. La cadena de conexión</text>
+  <text x="36" y="470" fill="#2b231d">(endpoint + accesskey) y el remitente DoNotReply@….azurecomm.net están en config.json («mesalista correo»); la clave nunca viaja: solo la firma.</text>
+</svg>

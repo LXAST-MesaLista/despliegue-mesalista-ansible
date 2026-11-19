@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 480" font-family="Segoe UI, Arial, sans-serif" font-size="12">
+  <defs>
+    <marker id="f" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5e554d"/></marker>
+  </defs>
+  <rect width="1000" height="480" fill="#ffffff"/>
+  <text x="500" y="26" text-anchor="middle" font-size="18" font-weight="700" fill="#221c17">HTTPS: el certificado de Let's Encrypt (certbot, desafío HTTP-01)</text>
+  <g font-weight="700" text-anchor="middle">
+    <rect x="40" y="44" width="200" height="40" rx="8" fill="#f4efea" stroke="#8c8178"/><text x="140" y="62" fill="#2b231d">install.sh + certbot</text><text x="140" y="77" font-size="10.5" font-weight="400" fill="#2b231d">en la máquina</text>
+    <rect x="400" y="44" width="200" height="40" rx="8" fill="#f6e7e2" stroke="#a8432a"/><text x="500" y="62" fill="#5c2416">nginx :80</text><text x="500" y="77" font-size="10.5" font-weight="400" fill="#5c2416">/.well-known/acme-challenge/</text>
+    <rect x="760" y="44" width="200" height="40" rx="8" fill="#e7f4ec" stroke="#2f8f5b"/><text x="860" y="62" fill="#174a2e">Let's Encrypt</text><text x="860" y="77" font-size="10.5" font-weight="400" fill="#174a2e">acme-v02.api.letsencrypt.org</text>
+  </g>
+  <g stroke="#c9bfb5" stroke-width="1.2" stroke-dasharray="4 4"><path d="M140,84 L140,330"/><path d="M500,84 L500,330"/><path d="M860,84 L860,330"/></g>
+  <g stroke="#5e554d" stroke-width="1.5" fill="none" marker-end="url(#f)">
+    <path d="M140,112 L498,112"/>
+    <path d="M140,148 L858,148"/>
+    <path d="M860,176 L142,176"/>
+    <path d="M140,204 L498,204"/>
+    <path d="M860,236 L502,236"/>
+    <path d="M500,258 L858,258"/>
+    <path d="M860,288 L142,288"/>
+    <path d="M140,316 L498,316"/>
+  </g>
+  <text x="150" y="106">① arranca nginx con un certificado autofirmado temporal (30 días)</text>
+  <text x="150" y="142">② certbot certonly --webroot -w /var/www/letsencrypt -d &lt;dominio&gt;</text>
+  <text x="560" y="170" fill="#174a2e">③ «demuestra que el dominio es tuyo»: un reto</text>
+  <text x="150" y="198">④ escribe el reto en /var/www/letsencrypt/.well-known/acme-challenge/…</text>
+  <text x="560" y="230" fill="#174a2e">⑤ GET http://&lt;dominio&gt;/.well-known/acme-challenge/…</text>
+  <text x="560" y="252" fill="#5c2416">⑥ nginx devuelve el reto (puerto 80, sin redirigir)</text>
+  <text x="300" y="282" fill="#174a2e">⑦ certificado en /etc/letsencrypt/live/&lt;dominio&gt;/ (90 días)</text>
+  <text x="150" y="310">⑧ reescribe el sitio de nginx con el certificado nuevo y lo recarga</text>
+  <rect x="40" y="344" width="920" height="120" rx="10" fill="#fbf9f7" stroke="#c9bfb5"/>
+  <text x="56" y="366" font-weight="700" fill="#2b231d">Renovación automática</text>
+  <text x="56" y="386" fill="#2b231d">• certbot.timer (systemd) mira dos veces al día y renueva cuando faltan menos de 30 días, con el mismo desafío por el puerto 80.</text>
+  <text x="56" y="404" fill="#2b231d">• Tras renovar ejecuta /etc/letsencrypt/renewal-hooks/deploy/mesalista-reload.sh → systemctl reload nginx (sin cortar conexiones).</text>
+  <text x="56" y="422" fill="#2b231d">• «sudo mesalista estado» avisa con ✘ si al certificado le quedan menos de 20 días o si certbot.timer no está activo.</text>
+  <text x="56" y="446" fill="#5c2416">Requisitos: el dominio (etiqueta DNS de Azure) apunta a la IP pública y el puerto 80 está abierto en el NSG y en ufw.</text>
+</svg>

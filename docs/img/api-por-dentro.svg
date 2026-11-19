@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 580" font-family="Segoe UI, Arial, sans-serif" font-size="13">
+  <defs>
+    <marker id="f" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#5e554d"/>
+    </marker>
+  </defs>
+  <rect width="900" height="580" fill="#ffffff"/>
+  <text x="450" y="28" text-anchor="middle" font-size="17" font-weight="700" fill="#221c17">Dentro de la API: qué pasa con cada petición a /api/v1</text>
+
+  <rect x="290" y="50" width="320" height="44" rx="8" fill="#eef3fb" stroke="#4a6fa5"/>
+  <text x="450" y="70" text-anchor="middle" font-weight="700" fill="#22344f">Llega «POST /api/v1/reservations» + JSON</text>
+  <text x="450" y="86" text-anchor="middle" font-size="11" fill="#22344f">src/server.js → handle() en src/app.js</text>
+
+  <rect x="290" y="118" width="320" height="40" rx="8" fill="#f4efea" stroke="#8c8178"/>
+  <text x="450" y="143" text-anchor="middle" fill="#2b231d">① Lee el cuerpo (máx. 16 KB) y guarda la petición</text>
+
+  <rect x="290" y="182" width="320" height="52" rx="8" fill="#f4efea" stroke="#8c8178"/>
+  <text x="450" y="204" text-anchor="middle" fill="#2b231d">② dispatch(): ¿llegó por HTTPS? ¿el cuerpo es JSON?</text>
+  <text x="450" y="222" text-anchor="middle" fill="#2b231d">¿empieza por /api/v1? → quita el prefijo</text>
+
+  <rect x="290" y="258" width="320" height="52" rx="8" fill="#e7f4ec" stroke="#2f8f5b" stroke-width="1.6"/>
+  <text x="450" y="280" text-anchor="middle" font-weight="700" fill="#174a2e">③ src/routes.js: router.dispatch(método, ruta)</text>
+  <text x="450" y="298" text-anchor="middle" font-size="12" fill="#174a2e">busca r.add('POST', '/reservations', …)</text>
+
+  <rect x="290" y="334" width="320" height="64" rx="8" fill="#e7f4ec" stroke="#2f8f5b" stroke-width="1.6"/>
+  <text x="450" y="356" text-anchor="middle" font-weight="700" fill="#174a2e">④ El manejador de la ruta</text>
+  <text x="450" y="374" text-anchor="middle" font-size="12" fill="#174a2e">auth.client() comprueba el token Bearer</text>
+  <text x="450" y="390" text-anchor="middle" font-size="12" fill="#174a2e">body() da el JSON · query() la ?consulta</text>
+
+  <rect x="290" y="422" width="320" height="44" rx="8" fill="#ece8f6" stroke="#6b5ca5"/>
+  <text x="450" y="442" text-anchor="middle" font-weight="700" fill="#2f2656">⑤ src/booking.js, auth.js, payments.js…</text>
+  <text x="450" y="458" text-anchor="middle" font-size="12" fill="#2f2656">reglas del negocio + PostgreSQL (db.js)</text>
+
+  <rect x="290" y="490" width="320" height="44" rx="8" fill="#f6e7e2" stroke="#a8432a" stroke-width="1.6"/>
+  <text x="450" y="510" text-anchor="middle" font-weight="700" fill="#5c2416">⑥ Devuelve un objeto → JSON</text>
+  <text x="450" y="526" text-anchor="middle" font-size="12" fill="#5c2416">{ reservation: {…}, _status: 201 }</text>
+
+  <g stroke="#5e554d" stroke-width="1.6" fill="none" marker-end="url(#f)">
+    <path d="M450,94 L450,116"/><path d="M450,158 L450,180"/><path d="M450,234 L450,256"/>
+    <path d="M450,310 L450,332"/><path d="M450,398 L450,420"/><path d="M450,466 L450,488"/>
+  </g>
+
+  <!-- Errores -->
+  <rect x="660" y="182" width="210" height="52" rx="8" fill="#fbeaea" stroke="#b3261e"/>
+  <text x="765" y="204" text-anchor="middle" fill="#7a1a14">403 https_required</text>
+  <text x="765" y="222" text-anchor="middle" fill="#7a1a14">415 unsupported_type · 404</text>
+  <path d="M610,208 L658,208" stroke="#b3261e" stroke-width="1.4" fill="none" marker-end="url(#f)"/>
+
+  <rect x="660" y="258" width="210" height="52" rx="8" fill="#fbeaea" stroke="#b3261e"/>
+  <text x="765" y="280" text-anchor="middle" fill="#7a1a14">404 ruta que no existe</text>
+  <text x="765" y="298" text-anchor="middle" fill="#7a1a14">405 existe con otro método</text>
+  <path d="M610,284 L658,284" stroke="#b3261e" stroke-width="1.4" fill="none" marker-end="url(#f)"/>
+
+  <rect x="660" y="334" width="210" height="64" rx="8" fill="#fbeaea" stroke="#b3261e"/>
+  <text x="765" y="356" text-anchor="middle" fill="#7a1a14">fail(401, 'unauthenticated'…)</text>
+  <text x="765" y="374" text-anchor="middle" fill="#7a1a14">fail(409, 'conflict'…)</text>
+  <text x="765" y="390" text-anchor="middle" fill="#7a1a14">fail(422, 'invalid'…)</text>
+  <path d="M610,366 L658,366" stroke="#b3261e" stroke-width="1.4" fill="none" marker-end="url(#f)"/>
+
+  <rect x="660" y="430" width="210" height="64" rx="8" fill="#fff" stroke="#b3261e" stroke-dasharray="5 3"/>
+  <text x="765" y="452" text-anchor="middle" font-weight="700" fill="#7a1a14">Todos los errores salen igual:</text>
+  <text x="765" y="472" text-anchor="middle" font-size="11" fill="#7a1a14">{"error": {"code": "conflict",</text>
+  <text x="765" y="487" text-anchor="middle" font-size="11" fill="#7a1a14">"message": "…", "field": "time"}}</text>
+  <path d="M765,398 L765,428" stroke="#b3261e" stroke-width="1.4" fill="none" marker-end="url(#f)"/>
+
+  <!-- Claves especiales -->
+  <text x="30" y="350" font-weight="700" fill="#2b231d">Claves especiales del objeto</text>
+  <text x="30" y="370" font-size="12" fill="#2b231d">_status → código HTTP (200 si falta)</text>
+  <text x="30" y="388" font-size="12" fill="#2b231d">_redirect → 303 (vuelta de PayPal)</text>
+  <text x="30" y="406" font-size="12" fill="#2b231d">_file, _type, _body → descarga (CSV)</text>
+
+  <text x="30" y="556" font-size="12" fill="#5e554d">⑦ Después de responder: correos, avisos push y devoluciones de PayPal (si los hay); lo que falle lo reintenta bin/worker.js cada minuto.</text>
+</svg>

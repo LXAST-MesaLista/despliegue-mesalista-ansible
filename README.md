@@ -40,7 +40,7 @@ veces como haga falta: actualiza el código y no borra datos.
 | `roles/servidor` | Servidor (`install.sh`) y servicios externos (`integraciones.yml`) |
 | `roles/web` | Web (`instalar.sh`) |
 | `roles/comprobacion` | `mesalista estado` y una prueba de la API desde fuera |
-| `docs/` | Manual para desplegar desde dentro de la máquina (`.md` y `.pdf`) |
+| `docs/` | Manual para desplegar desde dentro de la máquina, y `integracion-tecnologias.md` (todas las tecnologías y cómo se integran; copia del repositorio Servidor), en `.md` y `.pdf` |
 
 **¿Ya estás dentro de la máquina por SSH?** Puedes ejecutar Ansible allí mismo,
 sin WSL: [docs/manual-despliegue-en-la-maquina.md](docs/manual-despliegue-en-la-maquina.md)

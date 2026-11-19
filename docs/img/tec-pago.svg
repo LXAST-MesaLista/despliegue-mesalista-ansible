@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 640" font-family="Segoe UI, Arial, sans-serif" font-size="12">
+  <defs>
+    <marker id="f" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5e554d"/></marker>
+  </defs>
+  <rect width="1000" height="640" fill="#ffffff"/>
+  <text x="500" y="26" text-anchor="middle" font-size="18" font-weight="700" fill="#221c17">Pago de la señal de un grupo con PayPal (Orders v2)</text>
+  <g font-weight="700" text-anchor="middle">
+    <rect x="20" y="44" width="170" height="40" rx="8" fill="#eef3fb" stroke="#4a6fa5"/><text x="105" y="62" fill="#22344f">App o navegador</text><text x="105" y="77" font-size="10.5" font-weight="400" fill="#22344f">Custom Tabs / pestaña</text>
+    <rect x="230" y="44" width="150" height="40" rx="8" fill="#fff7e0" stroke="#c98a09"/><text x="305" y="69" fill="#5a3d00">WEB (si es web)</text>
+    <rect x="420" y="44" width="170" height="40" rx="8" fill="#e7f4ec" stroke="#2f8f5b"/><text x="505" y="62" fill="#174a2e">API</text><text x="505" y="77" font-size="10.5" font-weight="400" fill="#174a2e">payments.js</text>
+    <rect x="630" y="44" width="160" height="40" rx="8" fill="#ece8f6" stroke="#6b5ca5"/><text x="710" y="69" fill="#2f2656">PostgreSQL</text>
+    <rect x="830" y="44" width="150" height="40" rx="8" fill="#eef3fb" stroke="#4a6fa5"/><text x="905" y="62" fill="#22344f">PayPal sandbox</text><text x="905" y="77" font-size="10.5" font-weight="400" fill="#22344f">api-m · www.sandbox</text>
+  </g>
+  <g stroke="#c9bfb5" stroke-width="1.2" stroke-dasharray="4 4"><path d="M105,84 L105,630"/><path d="M305,84 L305,630"/><path d="M505,84 L505,630"/><path d="M710,84 L710,630"/><path d="M905,84 L905,630"/></g>
+  <g stroke="#5e554d" stroke-width="1.5" fill="none" marker-end="url(#f)">
+    <path d="M105,110 L303,110"/>
+    <path d="M305,134 L503,134"/>
+    <path d="M505,160 L903,160"/>
+    <path d="M905,182 L507,182"/>
+    <path d="M505,208 L903,208"/>
+    <path d="M905,230 L507,230"/>
+    <path d="M505,256 L708,256"/>
+    <path d="M505,280 L307,280"/>
+    <path d="M305,304 L107,304"/>
+    <path d="M105,334 L903,334"/>
+    <path d="M905,378 L507,378"/>
+    <path d="M505,402 L903,402"/>
+    <path d="M905,424 L507,424"/>
+    <path d="M505,450 L708,450"/>
+    <path d="M505,500 L107,500"/>
+  </g>
+  <text x="114" y="104">① «Pagar con PayPal»</text>
+  <text x="314" y="128">② POST /api/v1/reservations/{id}/pay {"from": "web" | "app"}</text>
+  <text x="514" y="154">③ OAuth: POST /v1/oauth2/token (client_id + secret)</text>
+  <text x="700" y="176" fill="#22344f">access_token</text>
+  <text x="514" y="202">④ POST /v2/checkout/orders (importe EUR, return_url, cancel_url)</text>
+  <text x="640" y="224" fill="#22344f">id del pedido + enlace «payer-action»</text>
+  <text x="514" y="250" fill="#2f2656">⑤ INSERT payments (status 'created')</text>
+  <text x="330" y="274" fill="#174a2e">⑥ {"approve_url": "https://www.sandbox…"}</text>
+  <text x="114" y="298" fill="#5a3d00">⑦ 303 a PayPal (la app: el mismo enlace)</text>
+  <text x="114" y="328">⑧ el comprador inicia sesión en PayPal y aprueba el pago</text>
+  <text x="520" y="358" fill="#22344f">⑨ PayPal redirige al navegador a</text>
+  <text x="520" y="372" fill="#22344f">   https://&lt;dominio&gt;/api/v1/payments/return?token=…</text>
+  <text x="514" y="396">⑩ POST /v2/checkout/orders/{id}/capture</text>
+  <text x="680" y="418" fill="#22344f">COMPLETED + importe</text>
+  <text x="514" y="444" fill="#2f2656">⑪ payments 'captured' · reserva 'confirmed'</text>
+  <text x="514" y="464" fill="#2f2656">   + push_outbox «confirmed» (aviso al móvil)</text>
+  <text x="120" y="494" fill="#174a2e">⑫ 303 → web: /reservas/{id}?pago=ok · app: mesalista://reserva/{id}?pago=ok</text>
+  <rect x="20" y="520" width="960" height="104" rx="10" fill="#fbf9f7" stroke="#c9bfb5"/>
+  <text x="36" y="542" font-weight="700" fill="#2b231d">Detalles</text>
+  <text x="36" y="562" fill="#2b231d">• Las claves de PayPal solo están en el servidor (config.json). Ni la web ni la app las tienen; PayPal nunca ve la sesión de MesaLista.</text>
+  <text x="36" y="580" fill="#2b231d">• Si el plazo de pago termina (sp_mark_no_shows cada minuto), la reserva se libera y la solicitud pasa a «expired»; un pago tardío se marca 'failed'.</text>
+  <text x="36" y="598" fill="#2b231d">• Si se cancela una reserva pagada, payments pasa a 'refund_pending' y worker.js pide la devolución: POST /v2/payments/captures/{id}/refund.</text>
+  <text x="36" y="616" fill="#2b231d">• La app vuelve sola: Android abre MesaLista con el enlace mesalista://reserva/… (intent-filter) y la pantalla muestra el resultado.</text>
+</svg>

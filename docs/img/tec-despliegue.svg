@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 620" font-family="Segoe UI, Arial, sans-serif" font-size="12">
+  <defs>
+    <marker id="f" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5e554d"/></marker>
+  </defs>
+  <rect width="1000" height="620" fill="#ffffff"/>
+  <text x="500" y="26" text-anchor="middle" font-size="18" font-weight="700" fill="#221c17">Del código a la máquina: GitHub, Ansible e instaladores</text>
+
+  <rect x="20" y="46" width="200" height="140" rx="10" fill="#eef3fb" stroke="#4a6fa5"/>
+  <text x="120" y="68" text-anchor="middle" font-weight="700" fill="#22344f">Desarrollo</text>
+  <text x="34" y="92" fill="#22344f">• editor (VS Code)</text>
+  <text x="34" y="110" fill="#22344f">• Node.js + npm (local)</text>
+  <text x="34" y="128" fill="#22344f">• Android Studio + Gradle</text>
+  <text x="34" y="146" fill="#22344f">• git commit · git push</text>
+  <text x="34" y="170" font-size="11" fill="#22344f">(app: APK firmado → release/)</text>
+
+  <rect x="260" y="46" width="220" height="140" rx="10" fill="#eef6f0" stroke="#2f8f5b"/>
+  <text x="370" y="68" text-anchor="middle" font-weight="700" fill="#174a2e">GitHub · LXPT-UIB</text>
+  <text x="274" y="92" fill="#174a2e">• Servidor  (API + BD + nginx)</text>
+  <text x="274" y="110" fill="#174a2e">• WEB  (web + panel)</text>
+  <text x="274" y="128" fill="#174a2e">• APP  (Android + APK)</text>
+  <text x="274" y="146" fill="#174a2e">• despliegue-mesalista-ansible</text>
+  <text x="274" y="170" font-size="11" fill="#174a2e">(secretos: nunca en GitHub)</text>
+
+  <rect x="520" y="46" width="220" height="140" rx="10" fill="#fff7e0" stroke="#c98a09"/>
+  <text x="630" y="68" text-anchor="middle" font-weight="700" fill="#5a3d00">Ansible</text>
+  <text x="534" y="92" fill="#5a3d00">• inventario.yml (SSH) o</text>
+  <text x="534" y="110" fill="#5a3d00">  inventario-local.yml (local)</text>
+  <text x="534" y="128" fill="#5a3d00">• group_vars/main.yml</text>
+  <text x="534" y="146" fill="#5a3d00">• vault.yml (cifrado AES256)</text>
+  <text x="534" y="170" font-size="11" fill="#5a3d00">ansible-playbook desplegar.yml</text>
+
+  <rect x="780" y="46" width="200" height="140" rx="10" fill="#f6e7e2" stroke="#a8432a"/>
+  <text x="880" y="68" text-anchor="middle" font-weight="700" fill="#5c2416">Máquina de Azure</text>
+  <text x="794" y="92" fill="#5c2416">• Ubuntu 24.04 · sudo</text>
+  <text x="794" y="110" fill="#5c2416">• /srv/mesalista/Servidor</text>
+  <text x="794" y="128" fill="#5c2416">• /srv/mesalista/WEB</text>
+  <text x="794" y="146" fill="#5c2416">• /opt/mesalista-servidor</text>
+  <text x="794" y="164" fill="#5c2416">• /opt/mesalista-web</text>
+
+  <g stroke="#5e554d" stroke-width="1.6" fill="none" marker-end="url(#f)">
+    <path d="M220,116 L258,116"/><path d="M480,116 L518,116"/><path d="M740,116 L778,116"/>
+  </g>
+  <text x="222" y="108" font-size="10.5" fill="#5e554d">push</text>
+  <text x="484" y="108" font-size="10.5" fill="#5e554d">clone</text>
+  <text x="744" y="108" font-size="10.5" fill="#5e554d">SSH</text>
+
+  <!-- Roles -->
+  <text x="20" y="222" font-weight="700" font-size="14" fill="#221c17">Lo que hace desplegar.yml en la máquina, por roles</text>
+  <rect x="20" y="234" width="180" height="370" rx="10" fill="#f4efea" stroke="#8c8178"/>
+  <text x="110" y="256" text-anchor="middle" font-weight="700" fill="#2b231d">1 · base</text>
+  <text x="32" y="280" fill="#2b231d">• comprueba secretos</text>
+  <text x="32" y="298" fill="#2b231d">  y parámetros</text>
+  <text x="32" y="316" fill="#2b231d">• avisa si no es 24.04</text>
+  <text x="32" y="334" fill="#2b231d">• apt: git</text>
+  <text x="32" y="352" fill="#2b231d">• /srv/mesalista</text>
+
+  <rect x="214" y="234" width="300" height="370" rx="10" fill="#e7f4ec" stroke="#2f8f5b"/>
+  <text x="364" y="256" text-anchor="middle" font-weight="700" fill="#174a2e">2 · servidor → install.sh --no-interactivo</text>
+  <text x="226" y="280" fill="#174a2e">• git clone/pull Servidor (rama main)</text>
+  <text x="226" y="298" fill="#174a2e">• swap si hay poca memoria · hora de Madrid</text>
+  <text x="226" y="316" fill="#174a2e">• apt: nginx, PostgreSQL 16, certbot, ufw, cron</text>
+  <text x="226" y="334" fill="#174a2e">• Node.js 24 (NodeSource)</text>
+  <text x="226" y="352" fill="#174a2e">• PostgreSQL: roles, base, esquema, permisos</text>
+  <text x="226" y="370" fill="#174a2e">• /opt/mesalista-servidor · npm ci · argon2</text>
+  <text x="226" y="388" fill="#174a2e">• config.json (claves aleatorias, dominio)</text>
+  <text x="226" y="406" fill="#174a2e">• systemd: mesalista-api (+ reinicio solo)</text>
+  <text x="226" y="424" fill="#174a2e">• nginx (sitio) · ufw 22/80/443</text>
+  <text x="226" y="442" fill="#174a2e">• certbot (Let's Encrypt) + hook de nginx</text>
+  <text x="226" y="460" fill="#174a2e">• cron (worker, backup) · logrotate</text>
+  <text x="226" y="478" fill="#174a2e">• admin y PIN (la primera vez)</text>
+  <text x="226" y="506" font-weight="700" fill="#174a2e">integraciones (solo si cambian)</text>
+  <text x="226" y="526" fill="#174a2e">• mesalista paypal  (PayPal la comprueba)</text>
+  <text x="226" y="544" fill="#174a2e">• mesalista correo  (Azure Email)</text>
+  <text x="226" y="562" fill="#174a2e">• mesalista push    (Google la comprueba)</text>
+
+  <rect x="528" y="234" width="250" height="370" rx="10" fill="#fff7e0" stroke="#c98a09"/>
+  <text x="653" y="256" text-anchor="middle" font-weight="700" fill="#5a3d00">3 · web → instalar.sh --no-interactivo</text>
+  <text x="540" y="280" fill="#5a3d00">• git clone/pull WEB (rama main)</text>
+  <text x="540" y="298" fill="#5a3d00">• apaga Apache si estaba</text>
+  <text x="540" y="316" fill="#5a3d00">• apt: nginx, certbot · Node.js</text>
+  <text x="540" y="334" fill="#5a3d00">• /opt/mesalista-web · npm ci (ejs)</text>
+  <text x="540" y="352" fill="#5a3d00">• config.json (api, sesiones)</text>
+  <text x="540" y="370" fill="#5a3d00">• usuario mesalista-web sin privilegios</text>
+  <text x="540" y="388" fill="#5a3d00">• systemd: mesalista-web</text>
+  <text x="540" y="406" fill="#5a3d00">• sitio de nginx completo:</text>
+  <text x="540" y="424" fill="#5a3d00">  /assets · /api/v1 · resto → web</text>
+  <text x="540" y="442" fill="#5a3d00">• certificado (el del servidor)</text>
+  <text x="540" y="460" fill="#5a3d00">• prueba de la portada y la API</text>
+
+  <rect x="792" y="234" width="188" height="370" rx="10" fill="#ece8f6" stroke="#6b5ca5"/>
+  <text x="886" y="256" text-anchor="middle" font-weight="700" fill="#2f2656">4 · comprobacion</text>
+  <text x="804" y="280" fill="#2f2656">• mesalista estado:</text>
+  <text x="804" y="298" fill="#2f2656">  servicios, argon2,</text>
+  <text x="804" y="316" fill="#2f2656">  base de datos,</text>
+  <text x="804" y="334" fill="#2f2656">  HTTPS y certificado,</text>
+  <text x="804" y="352" fill="#2f2656">  correo, push, PayPal,</text>
+  <text x="804" y="370" fill="#2f2656">  colas, copia, disco,</text>
+  <text x="804" y="388" fill="#2f2656">  cortafuegos</text>
+  <text x="804" y="416" fill="#2f2656">• GET https://&lt;dominio&gt;</text>
+  <text x="804" y="434" fill="#2f2656">  /api/v1/config</text>
+  <text x="804" y="462" fill="#2f2656">• PLAY RECAP:</text>
+  <text x="804" y="480" fill="#2f2656">  failed=0 → todo bien</text>
+  <g stroke="#5e554d" stroke-width="1.6" fill="none" marker-end="url(#f)">
+    <path d="M200,420 L212,420"/><path d="M514,420 L526,420"/><path d="M778,420 L790,420"/>
+  </g>
+</svg>

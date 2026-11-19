@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600" font-family="Segoe UI, Arial, sans-serif" font-size="12">
+  <defs>
+    <marker id="f" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5e554d"/></marker>
+  </defs>
+  <rect width="1000" height="600" fill="#ffffff"/>
+  <text x="500" y="26" text-anchor="middle" font-size="18" font-weight="700" fill="#221c17">Avisos push con Firebase Cloud Messaging (FCM HTTP v1)</text>
+  <g font-weight="700" text-anchor="middle">
+    <rect x="20" y="44" width="170" height="40" rx="8" fill="#eef3fb" stroke="#4a6fa5"/><text x="105" y="62" fill="#22344f">App Android</text><text x="105" y="77" font-size="10.5" font-weight="400" fill="#22344f">firebase-messaging</text>
+    <rect x="230" y="44" width="170" height="40" rx="8" fill="#e7f4ec" stroke="#2f8f5b"/><text x="315" y="62" fill="#174a2e">API</text><text x="315" y="77" font-size="10.5" font-weight="400" fill="#174a2e">push.js</text>
+    <rect x="440" y="44" width="150" height="40" rx="8" fill="#ece8f6" stroke="#6b5ca5"/><text x="515" y="69" fill="#2f2656">PostgreSQL</text>
+    <rect x="630" y="44" width="170" height="40" rx="8" fill="#fff7e0" stroke="#c98a09"/><text x="715" y="62" fill="#5a3d00">Google OAuth 2.0</text><text x="715" y="77" font-size="10.5" font-weight="400" fill="#5a3d00">oauth2.googleapis.com</text>
+    <rect x="840" y="44" width="140" height="40" rx="8" fill="#fff7e0" stroke="#c98a09"/><text x="910" y="62" fill="#5a3d00">FCM</text><text x="910" y="77" font-size="10.5" font-weight="400" fill="#5a3d00">fcm.googleapis.com</text>
+  </g>
+  <g stroke="#c9bfb5" stroke-width="1.2" stroke-dasharray="4 4"><path d="M105,84 L105,590"/><path d="M315,84 L315,590"/><path d="M515,84 L515,590"/><path d="M715,84 L715,590"/><path d="M910,84 L910,590"/></g>
+
+  <rect x="20" y="94" width="960" height="20" fill="#f4efea"/><text x="30" y="109" font-weight="700" fill="#2b231d">A · Registrar el móvil (al entrar y cuando Firebase da un token nuevo)</text>
+  <g stroke="#5e554d" stroke-width="1.5" fill="none" marker-end="url(#f)">
+    <path d="M105,140 L908,140"/>
+    <path d="M910,162 L107,162"/>
+    <path d="M105,190 L313,190"/>
+    <path d="M315,212 L513,212"/>
+  </g>
+  <text x="114" y="134">① FirebaseMessaging.getToken() (con google-services.json del proyecto)</text>
+  <text x="700" y="156" fill="#5a3d00">token del dispositivo</text>
+  <text x="114" y="184">② POST /me/devices {token, platform: android}</text>
+  <text x="324" y="206" fill="#2f2656">③ push_devices (por usuario)</text>
+
+  <rect x="20" y="236" width="960" height="20" fill="#f4efea"/><text x="30" y="251" font-weight="700" fill="#2b231d">B · Enviar un aviso (p. ej. reserva confirmada, grupo aceptado o no aceptado)</text>
+  <g stroke="#5e554d" stroke-width="1.5" fill="none" marker-end="url(#f)">
+    <path d="M315,284 L513,284"/>
+    <path d="M315,320 L713,320"/>
+    <path d="M715,342 L317,342"/>
+    <path d="M315,372 L908,372"/>
+    <path d="M910,404 L107,404"/>
+    <path d="M315,436 L513,436"/>
+  </g>
+  <text x="324" y="278" fill="#2f2656">④ INSERT push_outbox (en la misma transacción del cambio)</text>
+  <text x="324" y="314">⑤ JWT firmado RS256 con la clave de la cuenta de servicio</text>
+  <text x="440" y="336" fill="#5a3d00">access_token (1 hora, se reutiliza)</text>
+  <text x="324" y="366">⑥ POST /v1/projects/&lt;id&gt;/messages:send · Authorization: Bearer</text>
+  <text x="114" y="398" fill="#5a3d00">⑦ FCM entrega el aviso: título, texto y data {type, reservation_id} · prioridad alta</text>
+  <text x="324" y="430" fill="#2f2656">⑧ DELETE de push_outbox (o reintento; token inválido → se borra)</text>
+
+  <rect x="20" y="456" width="960" height="20" fill="#f4efea"/><text x="30" y="471" font-weight="700" fill="#2b231d">C · En el móvil</text>
+  <text x="34" y="498" fill="#22344f">• App cerrada: lo muestra Android en el canal «Reservas» (icono ic_aviso). · App abierta: AvisosServicio.onMessageReceived lo muestra y recarga la pantalla.</text>
+  <text x="34" y="518" fill="#22344f">• Al tocarlo: abre la reserva de data.reservation_id, o «Mis reservas». · Al cerrar sesión: DELETE /me/devices y deleteToken().</text>
+  <rect x="20" y="534" width="960" height="52" rx="10" fill="#fbf9f7" stroke="#c9bfb5"/>
+  <text x="36" y="556" fill="#2b231d">El envío (⑤–⑧) se hace justo después de responder a la petición; lo que falle lo reintenta worker.js cada minuto. Dos archivos de Firebase distintos:</text>
+  <text x="36" y="574" fill="#2b231d">google-services.json va en la APP (identifica la app) · la cuenta de servicio va en el SERVIDOR (permite enviar), con «mesalista push».</text>
+</svg>
