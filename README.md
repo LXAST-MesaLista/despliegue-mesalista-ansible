@@ -29,6 +29,7 @@ veces como haga falta: actualiza el código y no borra datos.
 | Archivo | Qué hay |
 |---|---|
 | `inventario.yml` | La máquina: dominio o IP, usuario SSH y clave |
+| `inventario-local.yml` | Para ejecutar Ansible **dentro** de la propia máquina (conexión local) |
 | `group_vars/all/main.yml` | Parámetros preconfigurados: dominio, correos, repositorios, ramas… |
 | `group_vars/all/vault.yml.example` | Modelo de los secretos (contraseña del administrador, PIN, PayPal, correo de Azure) |
 | `group_vars/all/vault.yml` | Tus secretos, **cifrados** con `ansible-vault` (no se sube a Git) |
@@ -39,6 +40,11 @@ veces como haga falta: actualiza el código y no borra datos.
 | `roles/servidor` | Servidor (`install.sh`) y servicios externos (`integraciones.yml`) |
 | `roles/web` | Web (`instalar.sh`) |
 | `roles/comprobacion` | `mesalista estado` y una prueba de la API desde fuera |
+| `docs/` | Manual para desplegar desde dentro de la máquina (`.md` y `.pdf`) |
+
+**¿Ya estás dentro de la máquina por SSH?** Puedes ejecutar Ansible allí mismo,
+sin WSL: [docs/manual-despliegue-en-la-maquina.md](docs/manual-despliegue-en-la-maquina.md)
+(también en PDF). Este README explica la otra forma: desde tu ordenador.
 
 ## 1. Antes de empezar
 

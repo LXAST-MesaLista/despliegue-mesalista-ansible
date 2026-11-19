@@ -1,0 +1,13 @@
+# MesaLista · inventario para ejecutar Ansible DENTRO de la propia máquina de
+# Azure (conexión local, sin SSH). Úsalo así, desde la máquina:
+#
+#   ansible-playbook -i inventario-local.yml desplegar.yml --ask-vault-pass
+#
+# Ver docs/manual-despliegue-en-la-maquina.md. Para desplegar desde tu
+# ordenador por SSH, usa inventario.yml (el de por defecto).
+
+all:
+  hosts:
+    mesalista:
+      ansible_connection: local
+      ansible_python_interpreter: /usr/bin/python3
