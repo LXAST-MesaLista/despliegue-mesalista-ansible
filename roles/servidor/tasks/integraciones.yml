@@ -81,6 +81,34 @@
     msg: "Correo de Azure: {{ correo_cambio.stderr | default('') }} {{ correo_cambio.stdout | default('') }}"
   when: correo_cambio.rc is defined and correo_cambio.rc != 0
 
+# Sin correo en vault.yml: si el servidor tiene uno activado pero mal configurado
+# (p. ej. una cadena mal copiada en una instalación anterior), se desactiva. Uno
+# que funcione (configurado a mano con «mesalista correo») se deja como está.
+- name: Correo · ¿hay un correo activado pero mal configurado en el servidor?
+  ansible.builtin.command:
+    argv:
+      - node
+      - -e
+      - >-
+        const c = require(process.argv[1]).mail || {};
+        const valida = /^endpoint=https:\/\/[^;\s]+;accesskey=[A-Za-z0-9+\/]+=*;?$/i.test(String(c.connection_string || ''));
+        process.stdout.write(c.enabled === true && !valida ? 'roto' : 'bien');
+      - "{{ servidor_config }}"
+  register: correo_roto
+  changed_when: false
+  failed_when: false
+  check_mode: false
+  when: mesalista_correo_conexion | length == 0
+
+- name: Correo · desactivar el correo mal configurado (vault_correo_conexion vacío)
+  ansible.builtin.command: /usr/local/bin/mesalista correo
+  environment:
+    ML_MAIL_CONNECTION: "no"
+  register: correo_desactivado
+  when:
+    - mesalista_correo_conexion | length == 0
+    - correo_roto.stdout | default('') == 'roto'
+
 # --- Firebase (avisos push) --------------------------------------------------
 - name: Firebase · ¿hay cuenta de servicio en files/?
   ansible.builtin.stat:
