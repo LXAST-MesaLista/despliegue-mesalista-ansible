@@ -34,6 +34,32 @@
       del administrador.
     quiet: true
 
+- name: Comprobar que el dominio es un nombre y no una IP
+  ansible.builtin.assert:
+    that:
+      - mesalista_dominio is not match('^[0-9.]+$')
+    fail_msg: >-
+      mesalista_dominio es una IP ({{ mesalista_dominio }}). Let's Encrypt no da
+      certificados para IPs: sin un nombre no hay HTTPS válido. En Azure, Dirección
+      IP pública > Configuración > Etiqueta de nombre DNS, y pon en main.yml el nombre
+      completo (p. ej. mesalista.spaincentral.cloudapp.azure.com). La IP solo va en
+      inventario.yml (ansible_host).
+    quiet: true
+
+- name: Comprobar el correo de Azure (si está configurado)
+  ansible.builtin.assert:
+    that:
+      - mesalista_correo_conexion is match('^endpoint=https://[^;\s]+;accesskey=[A-Za-z0-9+/]+=*;?$', ignorecase=true)
+      - mesalista_correo_remitente is match('^[^@\s]+@[^@\s]+\.[^@\s]+$')
+    fail_msg: >-
+      El correo de Azure está a medias o mal copiado. vault_correo_conexion tiene que
+      ser la cadena completa del portal (Communication Services > Configuración > Claves
+      > Cadena de conexión): «endpoint=https://….communication.azure.com/;accesskey=…».
+      Y mesalista_correo_remitente, en main.yml, la dirección DoNotReply@….azurecomm.net.
+      Si no quieres correo, deja vault_correo_conexion vacío.
+    quiet: true   # assert no muestra los valores, solo este mensaje
+  when: mesalista_correo_conexion | length > 0
+
 - name: Avisar si la máquina no es Ubuntu 24.04
   ansible.builtin.debug:
     msg: >-
