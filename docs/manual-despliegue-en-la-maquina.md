@@ -1,8 +1,8 @@
 # Manual: desplegar MesaLista con Ansible desde dentro de la máquina de Azure
 
 Este manual explica cómo instalar o actualizar el **Servidor**
-([LXPT-UIB/Servidor](https://github.com/LXPT-UIB/Servidor)) y la **WEB**
-([LXPT-UIB/WEB](https://github.com/LXPT-UIB/WEB)) ejecutando Ansible **en la
+([LXAST-MesaLista/Servidor](https://github.com/LXAST-MesaLista/Servidor)) y la **WEB**
+([LXAST-MesaLista/WEB](https://github.com/LXAST-MesaLista/WEB)) ejecutando Ansible **en la
 propia máquina Ubuntu de Azure**, una vez que ya has entrado en ella por SSH.
 
 Ansible no necesita aquí ninguna conexión más: trabaja sobre la máquina en la
@@ -55,7 +55,7 @@ copia de los repositorios de MesaLista):
 
 ```bash
 cd ~
-git clone https://github.com/LXPT-UIB/despliegue-mesalista-ansible.git
+git clone https://github.com/LXAST-MesaLista/despliegue-mesalista-ansible.git
 cd despliegue-mesalista-ansible
 ls
 ```

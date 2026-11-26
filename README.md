@@ -3,9 +3,9 @@
 Instala o actualiza **MesaLista** en una máquina virtual **Ubuntu Server 24.04
 de Azure**, por SSH, con una sola orden:
 
-- el **Servidor** ([LXPT-UIB/Servidor](https://github.com/LXPT-UIB/Servidor)):
+- el **Servidor** ([LXAST-MesaLista/Servidor](https://github.com/LXAST-MesaLista/Servidor)):
   API en Node.js, PostgreSQL, nginx y HTTPS con Let's Encrypt;
-- la **WEB** ([LXPT-UIB/WEB](https://github.com/LXPT-UIB/WEB)): web de clientes
+- la **WEB** ([LXAST-MesaLista/WEB](https://github.com/LXAST-MesaLista/WEB)): web de clientes
   y panel del restaurante;
 - y los servicios externos: **PayPal** sandbox (señal de los grupos), **correo**
   de Azure Communication Services (restablecer la contraseña) y **Firebase**
@@ -84,7 +84,7 @@ También sirve **Azure Cloud Shell** (en el portal de Azure), que ya trae Ansibl
 ## 2. Configurar
 
 ```bash
-git clone https://github.com/LXPT-UIB/despliegue-mesalista-ansible.git
+git clone https://github.com/LXAST-MesaLista/despliegue-mesalista-ansible.git
 cd despliegue-mesalista-ansible
 ```
 
@@ -107,8 +107,8 @@ ansible_ssh_private_key_file: ~/.ssh/mesalista.pem
 | `mesalista_dominio` | Dominio público (web y API) | `mesalista.spaincentral.cloudapp.azure.com` |
 | `mesalista_correo_letsencrypt` | Correo para los avisos del certificado | **Cámbialo** (`cambiar@ejemplo.com` no vale) |
 | `mesalista_correo_admin` | Cuenta de administrador de MesaLista | `admin@mesalista.com` |
-| `mesalista_repo_servidor` / `mesalista_rama_servidor` | Repositorio y rama del Servidor | `LXPT-UIB/Servidor`, `main` |
-| `mesalista_repo_web` / `mesalista_rama_web` | Repositorio y rama de la WEB | `LXPT-UIB/WEB`, `main` |
+| `mesalista_repo_servidor` / `mesalista_rama_servidor` | Repositorio y rama del Servidor | `LXAST-MesaLista/Servidor`, `main` |
+| `mesalista_repo_web` / `mesalista_rama_web` | Repositorio y rama de la WEB | `LXAST-MesaLista/WEB`, `main` |
 | `mesalista_carpeta_codigo` | Dónde se bajan los repositorios en la máquina | `/srv/mesalista` |
 | `mesalista_instalar_web` | Instalar también la web | `true` |
 | `mesalista_correo_remitente` | Remitente del correo de Azure (`DoNotReply@….azurecomm.net`) | vacío |

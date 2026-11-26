@@ -80,7 +80,7 @@
   <rect x="20" y="584" width="960" height="120" rx="12" fill="#eef6f0" stroke="#2f8f5b"/>
   <text x="34" y="604" font-weight="700" fill="#174a2e">DESARROLLO Y DESPLIEGUE</text>
   <rect x="40" y="614" width="210" height="76" rx="8" fill="#fff" stroke="#2f8f5b"/>
-  <text x="145" y="636" text-anchor="middle" font-weight="700" fill="#174a2e">GitHub · LXPT-UIB</text>
+  <text x="145" y="636" text-anchor="middle" font-weight="700" fill="#174a2e">GitHub · LXAST-MesaLista</text>
   <text x="145" y="654" text-anchor="middle" fill="#174a2e">Servidor · WEB · APP</text>
   <text x="145" y="672" text-anchor="middle" fill="#174a2e">despliegue-mesalista-ansible</text>
   <rect x="270" y="614" width="210" height="76" rx="8" fill="#fff" stroke="#2f8f5b"/>
