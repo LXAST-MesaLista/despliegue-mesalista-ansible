@@ -5,10 +5,10 @@ encajan: dónde se ejecuta cada una, cómo se comunican, qué datos se
 intercambian, dónde están los secretos y cómo se despliega todo. Cada flujo
 importante tiene su diagrama.
 
-Repositorios: [LXPT-UIB/Servidor](https://github.com/LXPT-UIB/Servidor) (API y
-base de datos), [LXPT-UIB/WEB](https://github.com/LXPT-UIB/WEB) (web y panel),
-[LXPT-UIB/APP](https://github.com/LXPT-UIB/APP) (app Android) y
-[LXPT-UIB/despliegue-mesalista-ansible](https://github.com/LXPT-UIB/despliegue-mesalista-ansible)
+Repositorios: [LXAST-MesaLista/Servidor](https://github.com/LXAST-MesaLista/Servidor) (API y
+base de datos), [LXAST-MesaLista/WEB](https://github.com/LXAST-MesaLista/WEB) (web y panel),
+[LXAST-MesaLista/APP](https://github.com/LXAST-MesaLista/APP) (app Android) y
+[LXAST-MesaLista/despliegue-mesalista-ansible](https://github.com/LXAST-MesaLista/despliegue-mesalista-ansible)
 (despliegue).
 
 ---
@@ -121,7 +121,7 @@ saltarse una regla modificando el navegador o la app.
 
 | Tecnología | Para qué |
 |---|---|
-| **Git + GitHub** (organización LXPT-UIB) | Código de las cuatro partes |
+| **Git + GitHub** (organización LXAST-MesaLista) | Código de las cuatro partes |
 | **Bash** (`install.sh`, `instalar.sh`, `backup.sh`…) | Instaladores y tareas de la máquina; modo `--no-interactivo` para automatizar |
 | **Ansible** (core 2.16 o posterior) + **Ansible Vault** | Desplegar todo con una orden, con los secretos cifrados |
 | **SSH** (clave `.pem`) | Entrar en la máquina, Ansible y túneles (pgAdmin) |

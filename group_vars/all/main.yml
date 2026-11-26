@@ -18,9 +18,9 @@ mesalista_correo_admin: admin@mesalista.com
 # ---------------------------------------------------------------------------
 # Código que se despliega
 # ---------------------------------------------------------------------------
-mesalista_repo_servidor: https://github.com/LXPT-UIB/Servidor.git
+mesalista_repo_servidor: https://github.com/LXAST-MesaLista/Servidor.git
 mesalista_rama_servidor: main
-mesalista_repo_web: https://github.com/LXPT-UIB/WEB.git
+mesalista_repo_web: https://github.com/LXAST-MesaLista/WEB.git
 mesalista_rama_web: main
 
 # Carpeta de la máquina donde Ansible guarda la copia de los repositorios. Los
